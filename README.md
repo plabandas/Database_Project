@@ -196,3 +196,20 @@ insert into Transactions(Transaction_ID, Account_ID, Tx_Date, Amount, Category, 
 
 
 
+
+#### Natural Join Or Join Table: 
+```
+select * from Users inner join Accounts on Users.USER_ID = Accounts.USER_ID;
+```
+
+#### Left Join Or Left Outer Join Table: 
+```
+select * from Users left Join Accounts on Users.USER_ID = Accounts.USER_ID;
+```
+
+#### Right Join Or Right Outer Join Table: 
+```
+select * from Users right Join Accounts on Users.USER_ID = Accounts.USER_ID;
+```
+
+## <p style="color: #FF0000; background-color: #ADD8E6; width: 100%; height: 45px; text-align: center; line-height: 40px;">Designed By Plaban Das</p>

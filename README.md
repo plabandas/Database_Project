@@ -1,4 +1,4 @@
-## For Deleting All The Tables Of A User
+## Deleting All Tables Of A User
  
  
 > Execute This Command
@@ -56,7 +56,7 @@ END;
 
 ```
  
-### For All Creation & Insertion
+## For All Creation & Insertion
 > Execute This Command
 ```
 CREATE TABLE Users (

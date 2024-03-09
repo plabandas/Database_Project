@@ -322,7 +322,8 @@ INSERT INTO Goals(Goal_ID, User_ID, Target_Amount, Current_Amount, Deadline, Goa
 
 # Let's Start PL/SQL
 
-## Showing Users Table's One Record
+## Users Table Operations
+### Showing Users Table's One Record
 ```
 SET SERVEROUTPUT ON;
 
@@ -353,7 +354,7 @@ END;
 / 
 ```
 
-## Showing Users Table All Records Using Cursor And Row Type
+### Showing Users Table All Records Using Cursor And Row Type
 ```
 SET SERVEROUTPUT ON;
 
@@ -378,7 +379,32 @@ END;
 
 ```
 
-## Insertion Into Users Table Using PL/SQL
+### Showing Users Table Using While Loop
+```
+SET SERVEROUTPUT ON;
+
+DECLARE 
+    v_user Users%ROWTYPE; -- Declare a variable of the user row type 
+    CURSOR user_cursor IS SELECT * FROM Users; -- Cursor to fetch data from the Users table
+BEGIN 
+    OPEN user_cursor; -- Open the cursor 
+    FETCH user_cursor INTO v_user; -- Fetch user data into v_user
+    
+    WHILE user_cursor%found  LOOP 
+    
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_user.Name);  -- Display user data
+        FETCH user_cursor INTO v_user; -- Actualli like i++
+        
+    END LOOP;
+ 
+    CLOSE user_cursor; -- Close the cursor
+END;
+/
+
+```
+
+
+### Insertion Into Users Table Using PL/SQL
 ```
 DECLARE 
     v_user Users%ROWTYPE; -- Declare a variable of the user row type
@@ -399,6 +425,69 @@ BEGIN
     COMMIT;
 END;
 /
+
+```
+
+
+### Showing Names Using Array
+```
+set serveroutput on
+declare 
+  counter number;
+  name2 USERS.NAME%type;
+  
+  TYPE my_array IS VARRAY(5) OF users.name%type; 
+  all_names my_array:=my_array();
+begin
+  counter:=1;
+  for x in 111..115 
+  loop
+    select Name into name2 from Users where user_id=x;
+    all_names.EXTEND();
+    all_names(counter):=name2;
+    counter:=counter+1;
+  end loop;
+  
+  counter:=1;
+  WHILE counter<=all_names.COUNT 
+    LOOP 
+    DBMS_OUTPUT.PUT_LINE(all_names(counter)); 
+    counter:=counter+1;
+  END LOOP;
+end;
+/
+
+```
+
+
+## IF ELSE Statements in Users Table
+```
+DECLARE 
+
+  counter number;
+  name2 USERS.NAME%type;
+  
+  TYPE my_array IS VARRAY(5) OF users.name%type; 
+  all_names my_array:=my_array('Name 1', 'Name 2', 'Name 3', 'Name 4', 'Name 5');  -- VARRAY with a fixed size of 5 elements and initialized with book names
+BEGIN
+   counter := 1;
+   FOR x IN 111..115  
+   LOOP
+      SELECT name INTO name2 FROM users WHERE user_id=x;
+      if name2='Plaban Das' 
+        then
+        dbms_output.put_line(name2||' is '||'my name');
+      elsif name2='Sumon Das'  
+        then
+        dbms_output.put_line(name2||' is '||'my brother name');
+      elsif name2='Niloy Das'
+        then
+        dbms_output.put_line(name2||' is my another brother');
+      else
+        dbms_output.put_line(name2||' is '||' Unknown');
+        end if;
+   END LOOP;
+END;
 
 ```
 

@@ -491,18 +491,75 @@ END;
 
 ```
 
-# Join Operations
-#### Natural Join Or Join Table: 
+# SQL Commands  
+
+## All Commands at a glance
+```
+create user shakib034 identified by shakib034;
+grant all privileges to shakib034;
+set pagesize 100
+set linesize 200
+
+alter table dept add location char(20);
+alter table dept modify location varchar(23);
+alter table dept rename column location to location2;
+alter table dept drop column location2;
+
+insert into dept(dept_id,dept_name,faculty,no_of_student)values(7,'CSE','EE',120);
+select * from dept where dept_id=(select dept_id from course where course_name='database systems');
+update course set course_name='Digital Electronics' where course_no='EEE1101';
+delete from  dept where dept_id=12;
+
+select dept_name from dept where dept_name like 'E%' union select dept_name from dept where dept_name like '%M%';
+
+with max_student(val) as (select max(no_of_student) from dept)
+select * from dept,max_student where dept.no_of_student=max_student.val;
+
+select count(*) from dept;
+select count(dept_name) as number_of_dept from dept;
+select count(distinct dept_name) as number_of_dept from dept;
+select avg(no_of_student) from dept;
+select sum(no_of_student) from dept;
+select max(no_of_student) from dept;
+select min(no_of_student) from dept;
+select faculty,avg(no_of_student) from dept group by faculty;
+
+
+select * from dept where faculty='EE' and dept_id in (select dept_id from course where course_no like '%CSE%')
+select * from book where book_no> some(select book_no from book where book_no>=14);
+select * from book where book_no> all(select book_no from book where book_no>=14);
+select * from course where year_semister>=11 and exists(select * from dept where faculty like '%EE%');
+SELECT * FROM TEST WHERE NAME LIKE '___';
+
+select * from dept natural join course where dept_id=7;
+select * from dept natural join course;
+select dept_name,course_name from dept join course using(dept_id);
+select dept_name,course_name from dept join course on dept.dept_id=course.dept_id;
+select dept_name,course_name from dept left outer join course using(dept_id);
+select dept_name,course_name from dept right outer join course using(dept_id);
+select dept_name,course_name from dept full outer join course using(dept_id); 
+
+create view dept_details as select dept_id,dept_name from dept;
+
+...
+primary key(course_no),
+foreign key(dept_id) references dept2(dept_id)
+on delete cascade);
+
+```
+
+## Join Operations
+### Natural Join Or Join Table: 
 ```
 select * from Users inner join Accounts on Users.USER_ID = Accounts.USER_ID;
 ```
 
-#### Left Join Or Left Outer Join Table: 
+### Left Join Or Left Outer Join Table: 
 ```
 select * from Users left Join Accounts on Users.USER_ID = Accounts.USER_ID;
 ```
 
-#### Right Join Or Right Outer Join Table: 
+### Right Join Or Right Outer Join Table: 
 ```
 select * from Users right Join Accounts on Users.USER_ID = Accounts.USER_ID;
 ```

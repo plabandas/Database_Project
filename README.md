@@ -320,6 +320,87 @@ INSERT INTO Goals(Goal_ID, User_ID, Target_Amount, Current_Amount, Deadline, Goa
 
 ```
 
+# Let's Start PL/SQL
+
+## Showing Users Table's One Record
+```
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_user_id Users.User_ID%TYPE;
+    v_username Users.Username%TYPE;
+    v_email Users.Email%TYPE;
+    v_password Users.Password%TYPE;
+    v_name Users.Name%TYPE;
+    v_dob Users.DOB%TYPE;
+    v_address Users.Address%TYPE;
+BEGIN
+        select user_id, username, email, password, name, dob, address 
+        into v_user_id, v_username, v_email, v_password, v_name, v_dob, v_address  from Users
+        where user_id = 111;
+        
+        -- Display user data
+        DBMS_OUTPUT.PUT_LINE('User ID: ' || v_user_id);
+        DBMS_OUTPUT.PUT_LINE('Username: ' || v_username);
+        DBMS_OUTPUT.PUT_LINE('Email: ' || v_email);
+        DBMS_OUTPUT.PUT_LINE('Password: ' || v_password);
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_name);
+        DBMS_OUTPUT.PUT_LINE('Date of Birth: ' || TO_CHAR(v_dob, 'YYYY-MM-DD'));
+        DBMS_OUTPUT.PUT_LINE('Address: ' || v_address);
+        DBMS_OUTPUT.PUT_LINE('-------------------End OF One Record By Plaban----------------------');
+    END LOOP;
+END;
+/ 
+```
+
+## Showing Users Table All Records Using Cursor And Row Type
+```
+SET SERVEROUTPUT ON;
+
+DECLARE 
+    v_user Users%ROWTYPE; -- Declare a variable of the user row type 
+    CURSOR user_cursor IS SELECT * FROM Users; -- Cursor to fetch data from the Users table
+BEGIN 
+    OPEN user_cursor; -- Open the cursor 
+    
+    LOOP 
+        FETCH user_cursor INTO v_user; -- Fetch and display user data 
+        EXIT WHEN user_cursor%NOTFOUND; --Termination Criteria
+        
+        -- Display user data
+        DBMS_OUTPUT.PUT_LINE('User ID: ' || v_user.User_ID); DBMS_OUTPUT.PUT_LINE('Username: ' || v_user.Username); DBMS_OUTPUT.PUT_LINE('Email: ' || v_user.Email); DBMS_OUTPUT.PUT_LINE('Password: ' || v_user.Password); DBMS_OUTPUT.PUT_LINE('Name: ' || v_user.Name); DBMS_OUTPUT.PUT_LINE('Date of Birth: ' || TO_CHAR(v_user.DOB, 'YYYY-MM-DD')); DBMS_OUTPUT.PUT_LINE('Address: ' || v_user.Address);
+        DBMS_OUTPUT.PUT_LINE('-----------------------------------------');
+    END LOOP;
+ 
+    CLOSE user_cursor; -- Close the cursor
+END;
+/
+
+```
+
+## Insertion Into Users Table Using PL/SQL
+```
+DECLARE 
+    v_user Users%ROWTYPE; -- Declare a variable of the user row type
+BEGIN
+    -- Assign values to the v_user variable
+    v_user.User_ID := 123; -- Example User_ID
+    v_user.Username := 'example_user';
+    v_user.Email := 'example@example.com';
+    v_user.Password := 'example_password';
+    v_user.Name := 'Example User';
+    v_user.DOB := TO_DATE('1990-01-01', 'YYYY-MM-DD');
+    v_user.Address := '123 Example St, Example City';
+
+    -- Insert the data into the Users table
+    INSERT INTO Users VALUES v_user;
+
+    -- Commit the transaction
+    COMMIT;
+END;
+/
+
+```
 
 #### Natural Join Or Join Table: 
 ```

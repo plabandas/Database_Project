@@ -460,7 +460,7 @@ end;
 ```
 
 
-## IF ELSE Statements in Users Table
+### IF ELSE Statements in Users Table
 ```
 DECLARE 
 
@@ -491,6 +491,7 @@ END;
 
 ```
 
+# Join Operations
 #### Natural Join Or Join Table: 
 ```
 select * from Users inner join Accounts on Users.USER_ID = Accounts.USER_ID;

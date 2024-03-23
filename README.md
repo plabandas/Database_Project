@@ -150,10 +150,11 @@ INSERT INTO Goals(Goal_ID, User_ID, Target_Amount, Current_Amount, Deadline, Goa
 
 ```
  
-# Let's Start The Project
+# Let's Start The Project 
 
 <div style="text-align:center">
-  ![Image is missing](https://github.com/plabandas/Database_Project/assets/72873595/c361ed98-6144-4ec2-94a5-25fbe5500284)
+ <b> Schema Diagram</b>
+<img src="https://github.com/plabandas/Database_Project/assets/72873595/c361ed98-6144-4ec2-94a5-25fbe5500284"> 
 </div>
 
 

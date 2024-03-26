@@ -163,7 +163,7 @@ insert into Goals(goal_id, user_id, category_id, target_amount, current_amount, 
 
 <div style="text-align:center">
  <b> Schema Diagram</b>
-<img src="https://github.com/plabandas/Database_Project/assets/72873595/b9fe8cf3-a27b-451e-ba9a-18ab6070ba26"> 
+<img src="https://github.com/plabandas/Database_Project/assets/72873595/9e445ee8-fe5e-4a90-bedd-94d0524fb525"> 
 </div>
 
 

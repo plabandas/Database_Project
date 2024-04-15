@@ -86,8 +86,128 @@ select * from Transactions right outer Join Accounts on Transactions.account_id 
 -- Left Join Or Left Outer Join Table 22
 select * from Users left outer Join Accounts on Users.USER_ID = Accounts.USER_ID;
 
--- 
+-- PL/SQL variable declaration and print value
+set serveroutput on;
+declare
+    v_user_id Users.User_ID%TYPE; 
+    v_email Users.Email%TYPE;
+    v_password Users.Password%TYPE;
+    v_name Users.Name%TYPE; 
+    v_address Users.Address%TYPE;
+begin
+        select user_id, email, password, name, address 
+        into v_user_id, v_email, v_password, v_name, v_address  from Users
+        where user_id = 111;
+        
+        -- Display user data 
+        DBMS_OUTPUT.PUT_LINE('Email: ' || v_email);
+        DBMS_OUTPUT.PUT_LINE('Password: ' || v_password);
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_name); 
+        DBMS_OUTPUT.PUT_LINE('Address: ' || v_address);
+end;
+/ 
 
+-- Insert and set default value(PL/SQL)
+set serveroutput on;
+declare
+    v_user_id Users.User_ID%TYPE:=116; 
+    v_email Users.Email%TYPE:='rahul@gmail.com';
+    v_password Users.Password%TYPE:='2342';
+    v_name Users.Name%TYPE:='Rahul Roy'; 
+    v_address Users.Address%TYPE:='BUET, Dhaka';
+begin
+        insert into users values(v_user_id, v_email, v_password, v_name, v_address);
+END;
+/ 
+
+-- Row type(PL/SQL)
+set serveroutput on;
+declare
+    my_row users%rowtype;
+begin
+        select user_id, email, password, name, address 
+        into my_row.user_id, my_row.email, my_row.password, my_row.name, my_row.address  from Users
+        where user_id = 115;
+        
+        -- Display user data 
+        DBMS_OUTPUT.PUT_LINE('Email: ' || my_row.email);
+        DBMS_OUTPUT.PUT_LINE('Password: ' || my_row.password); 
+END;
+/ 
+
+-- Showing users information using cursor and while loop
+set serveroutput on;
+declare
+    v_user Users%ROWTYPE;
+    cursor user_cursor is select * from Users;
+begin
+    open user_cursor; -- Open the cursor 
+    fetch user_cursor into v_user; -- Fetch user data into v_user
+    
+    while user_cursor%found  LOOP 
+    
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_user.Name);
+        FETCH user_cursor INTO v_user; -- Actualli like i++
+        
+    end loop;
+ 
+    close user_cursor;
+END;
+/
+
+-- Show Name Of Users Note : Use For Loop and Array with extend function
+set serveroutput on
+declare 
+  counter number;
+  name2 USERS.NAME%type;
+  
+  TYPE my_array IS VARRAY(5) OF users.name%type; 
+  all_names my_array:=my_array();
+begin
+  counter:=1;
+  for x in 111..115 
+  loop
+    select Name into name2 from Users where user_id=x;
+    all_names.EXTEND();
+    all_names(counter):=name2;
+    counter:=counter+1;
+  end loop;
+  
+  counter:=1;
+  WHILE counter<=all_names.COUNT 
+    LOOP 
+    DBMS_OUTPUT.PUT_LINE(all_names(counter)); 
+    counter:=counter+1;
+  END LOOP;
+end;
+/
+
+-- Show the account name information using IF/ELSEIF/ELSE in PL/SQL
+DECLARE 
+  counter number;
+  name2 USERS.NAME%type;
+  
+  type my_array is varray(5) of users.name%type; 
+  all_names my_array:=my_array('Name 1', 'Name 2', 'Name 3', 'Name 4', 'Name 5');  -- ekhane size fix kora diyachi; and initialized with dummy names
+BEGIN
+   counter := 1;
+   FOR x IN 111..115  
+   LOOP
+      select name into name2 from users where user_id=x;
+      if name2='Plaban Das' 
+        then
+        dbms_output.put_line(name2||' is '||'is my account');
+      elsif name2='Sumon Das'  
+        then
+        dbms_output.put_line(name2||' is '||'my brother account');
+      elsif name2='Niloy Das'
+        then
+        dbms_output.put_line(name2||' is my another brother account name');
+      else
+        dbms_output.put_line(name2||' is '||' recently active user');
+        end if;
+   END LOOP;
+END;
 
 -- Displaying table data using SELECT command 
 

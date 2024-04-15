@@ -53,22 +53,40 @@ select count(distinct user_id) as Number_Of_Users from accounts;
 -- What min amount budget have been created 12
 select min(amount) from budgets; 
 
--- Show the average amount of transaction of unique account_id
+-- Show the average amount of transaction of unique account_id 13
 select account_id,avg(amount) from transactions group by account_id having avg(amount) > 400;
 
--- Show user_info who have make highest amount single transaction Nested Subquery
+-- Show user_info who have make highest amount single transaction Nested Subquery 14
 select * from users where  users.user_id in 
 ( select accounts.user_id from accounts where accounts.account_id in 
 ( select transactions.account_id from transactions where transactions.amount = 700));
 
--- Show Users who hav surname Das and transaction happened using card
+-- Set Membership AND : Show Users who hav surname Das and transaction happened using card 15
 select * from users where name like '%Das' and users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
 
--- Set Membership OR : Matches a string with card transactions
+-- Set Membership OR : Matches a string with card transactions 16
 select * from users where name like 'Sumon____' or users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
 
--- Set Membership NOT : Not Show which ( matches with string or transaction with card)
+-- Set Membership NOT : Not Show which ( matches with string or transaction with card) 17
 select * from users where not (name like '%to_D%' OR user_id in (select user_id from accounts where account_type like '%Card'));
+
+
+-- String Operations 18
+select * from transactions where description like 'Sal%tion%';
+
+-- Natural Join 19
+select * from goals natural join users where goals.CURRENT_AMOUNT > 3000;
+
+-- inner Join 20
+select * from Users inner join Accounts on Users.USER_ID = Accounts.USER_ID;
+
+-- Right Join Or Right Outer Join Table 21
+select * from Transactions right outer Join Accounts on Transactions.account_id = Accounts.account_id;
+
+-- Left Join Or Left Outer Join Table 22
+select * from Users left outer Join Accounts on Users.USER_ID = Accounts.USER_ID;
+
+-- 
 
 
 -- Displaying table data using SELECT command 

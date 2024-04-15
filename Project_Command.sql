@@ -209,6 +209,45 @@ BEGIN
    END LOOP;
 END;
 
+
+-- Count Total number of accounts of unique user using function
+create or replace function count_occurrences(
+    user_account in varchar2,
+    target_account in varchar2, 
+    user_id_val in varchar2
+)
+return number
+is
+    l_count number;
+begin
+ 
+    select count(*) into l_count from ACCOUNTS where user_id = user_id_val;
+
+    return l_count;
+ 
+end count_occurrences;
+/
+
+-- Calling Functions
+set serveroutput on
+declare 
+    v_user_111_count number;
+    v_user_112_count number;
+    v_user_113_count number; 
+begin 
+    v_user_111_count := count_occurrences('Users', 'Accounts', '111');
+    DBMS_OUTPUT.PUT_LINE('User 111 count: ' || v_user_111_count);
+ 
+    v_user_112_count := count_occurrences('Users', 'Accounts', '112');
+    DBMS_OUTPUT.PUT_LINE('User 112 count: ' || v_user_112_count);
+ 
+    v_user_113_count := count_occurrences('Users', 'Accounts', '113');
+    DBMS_OUTPUT.PUT_LINE('User 113 count: ' || v_user_113_count); 
+END;
+/
+
+
+
 -- Displaying table data using SELECT command 
 
 select * from accounts ;

@@ -246,6 +246,42 @@ begin
 END;
 /
 
+-- Make a procedure sothat you can find all count of records of first three table with max transaction at a time 
+create or replace procedure my_proc(
+  var1 out number,
+  var2 out number,
+  var3 out number,
+  var4 out number
+)
+AS
+  t_show CHAR(30);
+BEGIN
+  t_show := 'from procedure: ';
+  select count(*) into var1 from users;
+  select count(*) into var2 from accounts;
+  select count(*) into var3 from transactions;
+  select max(amount) into var4 from TRANSACTIONS;
+   
+  DBMS_OUTPUT.PUT_LINE(t_show);
+  DBMS_OUTPUT.PUT_LINE('Total number of users : ' || var1);
+  DBMS_OUTPUT.PUT_LINE('Number of Total Accounts : ' || var2);
+  DBMS_OUTPUT.PUT_LINE('Transactions happened : ' || var3 || ' times');
+  DBMS_OUTPUT.PUT_LINE('Max value of single transaction : ' || var4);
+   
+END;
+/
+
+
+set serveroutput on
+declare 
+count_1 number; 
+count_2 number; 
+count_3 number; 
+count_4 number;  
+begin
+my_proc(count_1, count_2, count_3, count_4);
+end;
+/
 
 
 -- Displaying table data using SELECT command 

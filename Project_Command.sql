@@ -59,8 +59,16 @@ select account_id,avg(amount) from transactions group by account_id having avg(a
 -- Show user_info who have make highest amount single transaction Nested Subquery
 select * from users where  users.user_id in 
 ( select accounts.user_id from accounts where accounts.account_id in 
-( select transactions.account_id from transactions where transactions.amount = 700))
+( select transactions.account_id from transactions where transactions.amount = 700));
 
+-- Show Users who hav surname Das and transaction happened using card
+select * from users where name like '%Das' and users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
+
+-- Set Membership OR : Matches a string with card transactions
+select * from users where name like 'Sumon____' or users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
+
+-- Set Membership NOT : Not Show which ( matches with string or transaction with card)
+select * from users where not (name like '%to_D%' OR user_id in (select user_id from accounts where account_type like '%Card'));
 
 
 -- Displaying table data using SELECT command 

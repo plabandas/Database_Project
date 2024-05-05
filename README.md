@@ -1,6 +1,9 @@
-## Deleting All Tables Of A User
- 
- 
+# PocketGuard
+This app will easy our boring life by managing your income and expense and at the same time this can be used for setting your goal. This app will also provide you parental control.
+
+
+
+## Deleting All Tables Of A User  
 > Execute This Command
 ```
 BEGIN

@@ -317,5 +317,118 @@ insert into Goals(goal_id, user_id, category_id, target_amount, current_amount, 
 
 ```
 
+## Commands Prepared For Database Project
+
+#### Describe Tables command
+``` 
+describe users;
+describe accounts;
+
+```
+
+#### Create a table and drop it named test_info
+``` 
+create table test_info(
+         id integer,
+         description varchar(250)
+         ); 
+drop table test_info;   
+
+```
+#### Add a coloum into users table
+``` 
+alter table users add description varchar(250);
+
+``` 
+ #### Modify the defination of users table description coloum
+``` 
+alter table users modify description varchar(200);
+
+```
+#### Give the sql command for rename a coloum from a table
+``` 
+alter table users rename column description to short_desc;
+
+``` 
+#### Give a command to drop a coloum
+``` 
+alter table users drop column short_desc;
+
+```  
+#### Write sql command to insert a record into users table
+``` 
+insert into Users(user_id, email, password, name, address) values(116, 'rahul@gmail.com', 3411, 'Rahul Roy','KUET,Bangladesh');
+
+```
+#### Update the email_id whose user_id = 116
+``` 
+update users set email='rahulroy@gmail.com' where user_id=116;
+
+```
+#### Delete the user record whose user_id = 116
+``` 
+delete from users where user_id=116;
+
+```
+#### Find the single Highest transaction from the transaction table
+``` 
+with max_amount(val) as (select max(amount) from transactions)
+select * from transactions,max_amount where transactions.amount=max_amount.val;
+
+```
+ #### Count how many transaction happen during the period
+``` 
+select count(*) from transactions;
+
+```
+#### Find how many distinct user_id in accounts table
+``` 
+select count(distinct user_id) as Number_Of_Users from accounts;
+
+```
+#### Fetch the minimum amount value form budget table
+``` 
+select min(amount) from budgets; 
+
+```
+#### Group the records accourding account_id and show average amount of transaction
+``` 
+select account_id,avg(amount) from transactions group by account_id having avg(amount) > 400;
+
+```
+#### Show user_info who have make highest amount single transaction using Nested Subquery
+``` 
+select * from users where  users.user_id in 
+( select accounts.user_id from accounts where accounts.account_id in 
+( select transactions.account_id from transactions where transactions.amount = 700));
+
+```
+#### Show Users who have surname Das and transaction happened using card
+``` 
+select * from users where name like '%Das' and users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
+
+```
+#### Matches a string with like the string or card transactions
+``` 
+select * from users where name like 'Sumon____' or users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
+
+```
+#### Do not Show which matches with to_D string or transaction with card
+``` 
+select * from users where not (name like '%to_D%' OR user_id in (select user_id from accounts where account_type like '%Card'));
+
+```
+#### Fetch all data from transaction table which description contains sal<any_string>tion<any_string>.
+``` 
+select * from transactions where description like 'Sal%tion%';
+
+```
+ 
+
+
+
+
+
+
 <p align="center"><span style="color: #FF0000; background-color: #ADD8E6; padding: 5px; border-radius: 5px;">Designed By Plaban Das</span></p>
 

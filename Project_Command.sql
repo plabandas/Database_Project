@@ -4,25 +4,31 @@ describe accounts;
 
 --Table Creation In other File
 
--- Demo Info
+-- Demo Info 
+-- create a temporary table command
 create table test_info(
          id integer,
          description varchar(250)
          );
 -- Drop Table 1
+-- Give a command to drop dest_info table
 drop table test_info;       
 
 --DDL
 --Add Column 2
+--Add a coloum into users table
 alter table users add description varchar(250); 
 
 --Modify Column Definition 3
+--Modify the defination of users table description coloum
 alter table users modify description varchar(200);
 
 --Rename Column Name 4
+-- Give the sql command for rename a coloum from a table
 alter table users rename column description to short_desc;
 
 --Drop The Column From Table 5
+-- Give a command to drop a coloum
 alter table users drop column short_desc;
 
 
@@ -30,63 +36,81 @@ alter table users drop column short_desc;
 
 -- Data Insertion Into Table In another File
 -- Insert A Record Into Users Table 6
+-- Write sql command to insert a record into users table
 insert into Users(user_id, email, password, name, address) values(116, 'rahul@gmail.com', 3411, 'Rahul Roy','KUET,Bangladesh');
 
 
 -- Update Data From A Table 7
+-- Update the email_id whose user_id = 116
 update users set email='rahulroy@gmail.com' where user_id=116;
 
 -- Delete Row From Table 8
+-- Delete the user record whose user_id = 116
 delete from users where user_id=116;
 
 -- Find Single Highest Transaction using with clause 9
+-- Find the single Highest transaction from the transaction table
 with max_amount(val) as (select max(amount) from transactions)
 select * from transactions,max_amount where transactions.amount=max_amount.val;
 
 
 -- how many row exist in transactions table. 10
+-- Count how many transaction happen during the period
 select count(*) from transactions;
 
 -- How many distinct user_id in accounts table 11
+-- Find how many distinct user_id in accounts table
 select count(distinct user_id) as Number_Of_Users from accounts;
 
 -- What min amount budget have been created 12
+-- Fetch the minimum amount value form budget table
 select min(amount) from budgets; 
 
 -- Show the average amount of transaction of unique account_id 13
+-- Group the records accourding account_id and show average amount of transaction
 select account_id,avg(amount) from transactions group by account_id having avg(amount) > 400;
 
 -- Show user_info who have make highest amount single transaction Nested Subquery 14
+-- Show user_info who have make highest amount single transaction using Nested Subquery
 select * from users where  users.user_id in 
 ( select accounts.user_id from accounts where accounts.account_id in 
 ( select transactions.account_id from transactions where transactions.amount = 700));
 
--- Set Membership AND : Show Users who hav surname Das and transaction happened using card 15
+-- Set Membership AND :  15
+-- Show Users who have surname Das and transaction happened using card
 select * from users where name like '%Das' and users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
 
--- Set Membership OR : Matches a string with card transactions 16
+-- Set Membership OR :  16
+-- Matches a string with like the string or card transactions
 select * from users where name like 'Sumon____' or users.user_id in (select accounts.user_id from accounts where account_type like '%Card');
 
--- Set Membership NOT : Not Show which ( matches with string or transaction with card) 17
+-- Set Membership NOT : 17
+-- Do not Show which matches with to_D string or transaction with card
 select * from users where not (name like '%to_D%' OR user_id in (select user_id from accounts where account_type like '%Card'));
 
 
 -- String Operations 18
+-- Fetch all data from transaction table which description contains sal<any_string>tion<any_string>.
 select * from transactions where description like 'Sal%tion%';
 
 -- Natural Join 19
+-- Perform natural join of goals and users table where goals.current_amount>3000
 select * from goals natural join users where goals.CURRENT_AMOUNT > 3000;
 
 -- inner Join 20
+-- Perform inner join of accounts and users table accoding to user_id
 select * from Users inner join Accounts on Users.USER_ID = Accounts.USER_ID;
 
 -- Right Join Or Right Outer Join Table 21
+-- Perform right outer join on transactions and accounts according to account_id
 select * from Transactions right outer Join Accounts on Transactions.account_id = Accounts.account_id;
 
 -- Left Join Or Left Outer Join Table 22
+-- Perform left outer join on Users and accounts according to user_id
 select * from Users left outer Join Accounts on Users.USER_ID = Accounts.USER_ID;
 
--- PL/SQL variable declaration and print value
+-- PL/SQL variable declaration and print value 23
+-- Write the PL/SQL code for variable declaration and print the value
 set serveroutput on;
 declare
     v_user_id Users.User_ID%TYPE; 
@@ -107,7 +131,8 @@ begin
 end;
 / 
 
--- Insert and set default value(PL/SQL)
+-- Insert and set default value(PL/SQL) 24
+-- Write the PL/SQL code for inserting and setting the default value
 set serveroutput on;
 declare
     v_user_id Users.User_ID%TYPE:=116; 
@@ -120,7 +145,8 @@ begin
 END;
 / 
 
--- Row type(PL/SQL)
+-- Row type(PL/SQL) 25
+-- User Row Type for printing the value of record from users table where id=115
 set serveroutput on;
 declare
     my_row users%rowtype;
@@ -135,7 +161,8 @@ begin
 END;
 / 
 
--- Showing users information using cursor and while loop
+-- Showing users information using cursor and while loop 26
+-- Show users information using cursor and while loop
 set serveroutput on;
 declare
     v_user Users%ROWTYPE;
@@ -155,6 +182,7 @@ begin
 END;
 /
 
+-- Show Name Of Users Note : Use For Loop and Array with extend function 27
 -- Show Name Of Users Note : Use For Loop and Array with extend function
 set serveroutput on
 declare 
@@ -182,6 +210,7 @@ begin
 end;
 /
 
+-- Show the account name information using IF/ELSEIF/ELSE in PL/SQL 28
 -- Show the account name information using IF/ELSEIF/ELSE in PL/SQL
 DECLARE 
   counter number;
@@ -210,6 +239,7 @@ BEGIN
 END;
 
 
+-- Count Total number of accounts of unique user using function 29
 -- Count Total number of accounts of unique user using function
 create or replace function count_occurrences(
     user_account in varchar2,
@@ -246,6 +276,7 @@ begin
 END;
 /
 
+-- Make a procedure sothat you can find all count of records of first three table with max transaction at a time 30
 -- Make a procedure sothat you can find all count of records of first three table with max transaction at a time 
 create or replace procedure my_proc(
   var1 out number,
@@ -284,6 +315,31 @@ end;
 /
 
 
+-- Create a trigger which will insert value in a new table with just account_id and amount when transaction is happened
+create table transactions_by_name(
+     account_id integer,
+     amount integer
+); 
+
+set serveroutput on
+create or replace trigger my_transaction_trigger
+after insert on transactions
+for each row 
+begin 
+    insert into transactions_by_name(account_id, amount) values(:new.account_id, :new.amount);
+end;  
+
+insert into Transactions(transaction_id, account_id, category_id, amount, tx_date, description) values(31, 11, 2, 700, to_date('01-10-24', 'DD-MM-YY'),  'Rent Transcation Occured 6'); 
+select * from transactions_by_name;
+
+
+
+
 -- Displaying table data using SELECT command 
 
 select * from accounts ;
+
+
+select users.name from users where users.USER_ID = 
+( select user_id from accounts where accounts.account_id = 
+( select transactions.account_id from transactions where transactions.TRANSACTION_ID = 30 ));
